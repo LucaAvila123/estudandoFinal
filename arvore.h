@@ -47,7 +47,13 @@ int folhas (Arv* a);
 //retorna o numero de ocorrencias de um dado caracter na arvore
 int ocorrencias (Arv* a, void* key, int (*verifica)(void*, void*));
 
+//retorna altura de um certo no (a raiz tem altura 0)
+int altura(Arv* a);
+
 //retorna o campo informacao de um dado no
 void* info (Arv* a);
+
+//remove um no da arvore, retornando o item interno dele
+void* removeNode(Arv* a, void* key, int (*verifica)(void*, void*));
 
 #endif /* arvore_h */

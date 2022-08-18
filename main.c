@@ -1,67 +1,41 @@
-#include "arvore.h"
+#include "arvoreAluno.h"
 #include "aluno.h"
+#include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-int ondeIr(int numero1, int numero2){
-    if(numero1 > numero2){
-        return 1;
-    }
-    if(numero1 < numero2){
-        return 0;
-    }
-    return -1;
-}
-
-int qualAluno(tAluno* alunoDaqui, tAluno* alunoNaArvore){
-    return ondeIr(retornaMat(alunoDaqui), retornaMat(alunoNaArvore));
-}
-void deleteNumero(int n){
-    return;
-}
-
-void printaNumero(int n){
-    printf("%d", n);
-}
-
-int nomesIguais(tAluno* aluno, char* nomeBusca){
-    int i = 0;
-    char* string = strdup(retornaNome(aluno));
-    while(string[i] == nomeBusca[i]){
-        i++;
-    }
-    if(i != strlen(string) || i != strlen(nomeBusca)){
-        free(string);
-        return 0;
-    }
-    free(string);
-    return 1;
-}
 
 int main(){
-    Arv* abb = arv_criavazia();
-    tAluno* luca = inicializaAluno("Luca", 4);
-    tAluno* felipe = inicializaAluno("Felipe", 2);
-    tAluno* josue = inicializaAluno("Josue", 3);
-    tAluno* clarice = inicializaAluno("Clarice", 6);
-    tAluno* debora = inicializaAluno("Debora", 7);
-    tAluno* poliana = inicializaAluno("Poliana", 5);
+    ArvAluno* abb = arvAluno_insere(inicializaAluno("Luca", 4), abb);
+    abb = arvAluno_insere(inicializaAluno("Felipe", 2), abb);
+    abb = arvAluno_insere(inicializaAluno("Josue", 3), abb);
+    abb = arvAluno_insere(inicializaAluno("Clarice", 6), abb);
 
-    abb = arv_insere(luca, abb, qualAluno);
-    abb = arv_insere(felipe, abb, qualAluno);
-    abb = arv_insere(josue, abb, qualAluno);
-    abb = arv_insere(clarice, abb, qualAluno);
-    abb = arv_insere(debora, abb, qualAluno);
-    abb = arv_insere(poliana, abb, qualAluno);
 
-    arv_imprime(abb, imprimeAluno);
+    abb = arvAluno_insere(inicializaAluno("Debora", 7), abb);
+    abb = arvAluno_insere(inicializaAluno("Poliana", 5), abb);
+    abb = arvAluno_insere(inicializaAluno("Mateus", 4), abb);
+
+    abb = arvAluno_insere(inicializaAluno("Fernanda", 4), abb);
+
+    imprimeArvAluno(abb);
     printf("\n");
     
-    tAluno* vendoAluno = (tAluno*) info(busca_no(abb, "Felipe", nomesIguais));
+    tAluno* vendoAluno = buscaAlunoPorNome(abb, "Felipe");
     imprimeAluno(vendoAluno);
     printf("\n");
 
+    printf("%d\n", ocorrencias(abb, 4, matriculaNumero));
+
+    //removeu item da arvore, sem eliminar o item
+    tAluno* removendoItem = removeAlunoDaArvore(abb, "Debora");
+    imprimeAluno(removendoItem);
+    printf("\n");
+    
     arv_libera(abb, larga);
 
+    larga(removendoItem);
+    
     return 0;
 
 }
