@@ -19,7 +19,7 @@ Arv* arv_criavazia (void){
 Arv* arv_insere(void* data, Arv* a, int (naOnde)(void*, void*)){
     if(a == NULL)
         a = arv_cria(data, NULL, NULL);
-    
+
     else{
         if(naOnde(data, a -> data) == 0){
             //printf("AGORA TU ME EXPLICA\n");
@@ -166,15 +166,70 @@ int altura(Arv* a){
         return -1; //arvore invalida
 }
 
-void* removeNode(Arv* a, void* key, int (*verifica)(void*, void*)){
+void* removeNode(Arv* a, void* key, int (*verifica)(void*, void*), int (*cmp)(void*, void*, void*)){
     Arv* node = busca_no(a, key, verifica);
+    Arv* aux = NULL;
+    void* data = NULL;
+    
     if(node){
         if(!node -> saee && !node -> saed){
-            void* data = node -> data;
+            data = node -> data;
             node -> data = NULL;
             node = NULL;
-            //free(node);
-            return data;
+        }
+        else if(!node -> saee && node -> saed){
+            data = node -> data;
+            node -> data = NULL;
+            node = node -> saed;
+        }
+        else if(!node -> saed && node -> saee){
+            data = node -> data;
+            node -> data = NULL;
+            node = node -> saee;
+        }
+        else if(node -> saee && node -> saed){
+            data = node -> data;
+            node -> data = NULL;
+            //ve o maior da direita do no esquerdo
+            Arv* intermediateLeft = biggestRight(node -> saee);
+            //ve o maior da esquerda do no direito
+            Arv* intermediateRight = biggestLeft(node -> saed);
+
+            //quando o numero do intermediario esquerdo for mais proximo que o do intermediario direito
+            if(cmp(data, intermediateLeft -> data, intermediateRight -> data)){
+                node -> data = intermediateLeft -> data;
+                printf("%d\n", node -> data != NULL);
+                
+                printf("%d\n", intermediateLeft == NULL);
+            }
         }
     }
+
+    return data;
+}
+
+Arv* biggestRight(Arv* a){
+    if(a){
+        if(a -> saed){
+            return biggestRight(a -> saed);
+        }
+        else
+            return a;
+        
+    }
+
+    return NULL;
+}
+
+Arv* biggestLeft(Arv* a){
+    if(a){
+        if(a -> saee)
+            return biggestLeft(a -> saee);
+        
+        else
+            return a;
+    
+    }
+
+    return NULL;
 }

@@ -19,4 +19,7 @@ tAluno* buscaAlunoPorNome(ArvAluno* abb, char* nome);
 
 tAluno* removeAlunoDaArvore(ArvAluno* abb, char* nome);
 
+int ocorrenciasAluno(ArvAluno* abb, char* nome);
+
+void liberaArvoreAluno(ArvAluno* abb);
 #endif
