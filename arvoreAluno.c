@@ -18,16 +18,16 @@ ArvAluno* arvAluno_insere(tAluno* aluno, ArvAluno* arvAluno){
     return arvAluno;
 }
 int alunoMatriculaProxima(tAluno* alunoCentro, tAluno* alunoEsquerda, tAluno* alunoDireita){
-    imprimeAluno(alunoCentro);
-    printf("\n");
-    imprimeAluno(alunoEsquerda);
-    printf("\n");
-    imprimeAluno(alunoDireita);
-    printf("\n");
+    // imprimeAluno(alunoCentro);
+    // printf("\n");
+    // imprimeAluno(alunoEsquerda);
+    // printf("\n");
+    // imprimeAluno(alunoDireita);
+    // printf("\n");
 
     int numero1 = retornaMat(alunoCentro) - retornaMat(alunoEsquerda);
     int numero2 = retornaMat(alunoDireita) - retornaMat(alunoCentro);
-    printf("%d %d\n", numero1, numero2);
+    // printf("%d %d\n", numero1, numero2);
     if(numero1 >= numero2)
         return 1;
     else 
@@ -84,12 +84,12 @@ tAluno* buscaAlunoPorNome(ArvAluno* abb, char* nome){
 }
 
 tAluno* removeAlunoDaArvore(ArvAluno* abb, char* nome){
-    return removeNode(abb -> arv, nome, nomesIguais, alunoMatriculaProxima);
+    return removeNode(abb -> arv, nome, nomesIguais, alunoMatriculaProxima, imprimeAluno);
 }
 
 void liberaArvoreAluno(ArvAluno* abb){
     if(abb){
-        arv_libera(abb -> arv, larga);
+        abb -> arv = arv_libera(abb -> arv, larga);
         free(abb);
     }
     

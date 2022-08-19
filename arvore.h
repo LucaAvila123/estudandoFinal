@@ -54,15 +54,15 @@ int altura(Arv* a);
 void* info (Arv* a);
 
 //remove um no da arvore, retornando o item interno dele
-void* removeNode(Arv* a, void* key, int (*verifica)(void*, void*), int (*cmp)(void*, void*, void*));
+void* removeNode(Arv* a, void* key, int (*verifica)(void*, void*), int (*cmp)(void*, void*, void*), void (*imprimeItem)(void*));
 
 //tira a o valor mais proximo da arvore
 void* intermedNode(Arv* a);
 
 //o maior no a direita do no em questao
-Arv* biggestRight(Arv* a);
+Arv* farthestRight(Arv* a);
 
 //o maior no a esquerda do no em questao
-Arv* biggestLeft(Arv* a);
+Arv* farthestLeft(Arv* a);
 
 #endif /* arvore_h */

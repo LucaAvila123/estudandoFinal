@@ -28,16 +28,17 @@ int main(){
     imprimeAluno(vendoAluno);
     printf("\n");
 
-    printf("%d\n", ocorrenciasAluno(abb, 4));
+    // printf("%d\n", ocorrenciasAluno(abb, 4));
 
     //removeu item da arvore, sem eliminar o item
-    tAluno* removendoItem = removeAlunoDaArvore(abb, "Clarice");
+    tAluno* removendoItem = removeAlunoDaArvore(abb, "Luca");
     imprimeAluno(removendoItem);
     printf("\n");
-    
-    liberaArvoreAluno(abb);
 
     imprimeArvAluno(abb);
+    printf("\n");
+
+    liberaArvoreAluno(abb);
 
     larga(removendoItem);
     

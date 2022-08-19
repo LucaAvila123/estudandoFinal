@@ -25,12 +25,14 @@ Arv* arv_insere(void* data, Arv* a, int (naOnde)(void*, void*)){
             //printf("AGORA TU ME EXPLICA\n");
             a -> saee = arv_insere(data, a -> saee, naOnde);
             a -> saee -> altura++;
+            a -> saee -> mae = a;
         }
             
         
         else if(naOnde(data, a -> data) == 1){
             a -> saed = arv_insere(data, a -> saed, naOnde);
             a -> saed -> altura++;
+            a -> saed -> mae = a;
         }
     }
     return a;
@@ -166,7 +168,7 @@ int altura(Arv* a){
         return -1; //arvore invalida
 }
 
-void* removeNode(Arv* a, void* key, int (*verifica)(void*, void*), int (*cmp)(void*, void*, void*)){
+void* removeNode(Arv* a, void* key, int (*verifica)(void*, void*), int (*cmp)(void*, void*, void*), void (*imprimeItem)(void*)){
     Arv* node = busca_no(a, key, verifica);
     Arv* aux = NULL;
     void* data = NULL;
@@ -189,18 +191,37 @@ void* removeNode(Arv* a, void* key, int (*verifica)(void*, void*), int (*cmp)(vo
         }
         else if(node -> saee && node -> saed){
             data = node -> data;
-            node -> data = NULL;
             //ve o maior da direita do no esquerdo
-            Arv* intermediateLeft = biggestRight(node -> saee);
+            Arv* intermediateLeft = farthestRight(node -> saee);
             //ve o maior da esquerda do no direito
-            Arv* intermediateRight = biggestLeft(node -> saed);
+            Arv* intermediateRight = farthestLeft(node -> saed);
 
+            // printf("%d ", info(intermediateLeft) != NULL);
+            // printf("%d\n", info(intermediateRight) != NULL);
             //quando o numero do intermediario esquerdo for mais proximo que o do intermediario direito
             if(cmp(data, intermediateLeft -> data, intermediateRight -> data)){
                 node -> data = intermediateLeft -> data;
-                printf("%d\n", node -> data != NULL);
-                
-                printf("%d\n", intermediateLeft == NULL);
+                intermediateLeft -> data = data;
+
+                /*imprimeItem(intermediateLeft -> data);
+                printf("\n");
+                imprimeItem(node -> data);
+                printf("\n");
+                imprimeItem(intermediateLeft -> mae -> data);
+                printf("\n");*/
+
+                intermediateLeft -> mae -> saed = NULL;
+                free(intermediateLeft);
+
+
+            }
+            else{
+                node -> data = intermediateRight -> data;
+                intermediateRight -> data = data;
+
+                intermediateRight -> mae -> saee = NULL;
+                free(intermediateRight);
+
             }
         }
     }
@@ -208,10 +229,12 @@ void* removeNode(Arv* a, void* key, int (*verifica)(void*, void*), int (*cmp)(vo
     return data;
 }
 
-Arv* biggestRight(Arv* a){
+Arv* farthestRight(Arv* a){
     if(a){
         if(a -> saed){
-            return biggestRight(a -> saed);
+            if(a -> saed -> data){
+                return farthestRight(a -> saed);
+            }     
         }
         else
             return a;
@@ -221,10 +244,14 @@ Arv* biggestRight(Arv* a){
     return NULL;
 }
 
-Arv* biggestLeft(Arv* a){
+Arv* farthestLeft(Arv* a){
     if(a){
-        if(a -> saee)
-            return biggestLeft(a -> saee);
+        if(a -> saee){
+            if(a -> saee -> data){
+                return farthestLeft(a -> saee);
+            }
+        }
+            
         
         else
             return a;
